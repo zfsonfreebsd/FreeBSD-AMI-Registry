@@ -4,4 +4,6 @@ import cdk = require('@aws-cdk/core');
 import { FreeBsdAmiRegistryStack } from '../lib/free_bsd-ami-registry-stack';
 
 const app = new cdk.App();
-new FreeBsdAmiRegistryStack(app, 'FreeBsdAmiRegistryStack');
+new FreeBsdAmiRegistryStack(app, 'FreeBsdAmiRegistryStack', {
+    env: { region: 'us-east-1' }
+});
