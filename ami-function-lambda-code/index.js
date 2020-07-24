@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 
-const archPattern = /amd64/;
+const archPattern = /(amd64|arm64)/;
 const region = 'us-west-1';
 const amiRegistry = process.env['AMI_REGISTRY'];
 
