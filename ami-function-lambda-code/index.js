@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 
-const archPattern = /(amd64|arm64)/;
+const architectures = { 'x86_64': 'amd64', 'arm64': 'arm64' };
 const region = 'us-west-1';
 const amiRegistry = process.env['AMI_REGISTRY'];
 
@@ -19,7 +19,8 @@ const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
             "eu-north-1": [
                 {
                     "Name": "FreeBSD 12.0-STABLE-amd64-2019-03-07",
-                    "ImageId": "ami-0a6869ad3d6921c7d"
+                    "ImageId": "ami-0a6869ad3d6921c7d",
+                    "Architecture": "x86_64"
                 }
             ]
         }
@@ -60,11 +61,11 @@ function messageHandler(message) {
              * Unwanted images are nulled out.
              * Desired images get Arch added.
              */
-            const { Name: name } = image;
-            if (name === undefined)
+            const { Architecture: architecture } = image;
+            if (architecture === undefined)
                 return null;
-            const arch = name.match(archPattern);
-            if (arch === null)
+            const arch = architectures[architecture];
+            if (arch === undefined)
                 return null;
             return {
                 Arch: arch,
